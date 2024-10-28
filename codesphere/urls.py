@@ -17,8 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from store import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("register/",views.SignUpView.as_view(),name="signup")
-]
+    path("register/",views.SignUpView.as_view(),name="signup"),
+    path("signin/",views.signInView.as_view(),name="signin"),
+    path("index/",views.IndexView.as_view(),name="index"),
+    path("logout/",views.LogOutView.as_view(),name="logout"),
+    path("profile/change/",views.UserProfileEditView.as_view(),name="profile_edit"),
+    path("project/add/",views.ProjectCreateView.as_view(),name="project_add"),
+    path("mywork/all",views.MyProjectListView.as_view(),name="my_work"),
+    path("project/<int:pk>",views.ProjectUpdateView.as_view(),name="project_update"),
+    path("project/<int:pk>/detail/",views.ProductDetailView.as_view(),name="project_detail")
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
