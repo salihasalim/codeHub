@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 
 from store.forms import SignUpform,SignInForm
 
@@ -11,6 +11,8 @@ from django.contrib.auth import authenticate,login,logout
 from store.forms import UserProfileForm,ProjectForm
 
 from store.models import Project
+
+from django.contrib import messages
 
 
 
@@ -227,5 +229,46 @@ class ProductDetailView(View):
         qs=Project.objects.get(id=id)
 
         return render(request,self.template_name,{"data":qs})
+
+
+class AddToWishlistItemView(View):
+
+    def get(self,request,*args,**kwargs):
+
+        id=kwargs.get("pk")
+
+        project_object=get_object_or_404(Project,id=id)
+
+        try:
+
+            request.user.basket.basket_item.create(project_object=project_object)
+
+            messages.success(request,"item has benn added to wishlist")
+        
+        except Exception as e:
+
+            messages.error(request,"failed to add item ")
+
+
+        return redirect("index")
+
+
+class MyWishListItemsView(View):
+
+    template_name="mywishlist.html"
+
+    def get(self,request,*args,**kwargs):
+
+       
+
+
+        qs=request.user.basket.basket_item.filter(is_order_placed=False)
+
+            
+
+
+        return render(request,self.template_name,{"data":qs})
+
+
 
         
