@@ -15,16 +15,25 @@ class SignUpform(UserCreationForm):
 
         fields=["username","email","password1","password2"]
 
+        widgets={
+
+            "username":forms.TextInput(attrs={"class":"form-control","style":"width:350px;height:40px;margin-bottom:40px;"}),
+
+            "email":forms.TextInput(attrs={"class":"form-control","style":"width:350px;height:40px;margin-bottom:40px;"}),
+
+            "password1":forms.PasswordInput(attrs={"class":"form-control","style":"width:350px;height:40px;margin-bottom:40px;"}),
+
+            "password2":forms.PasswordInput(attrs={"class":"form-control","style":"width:350px;height:40px;margin-bottom:40px;"})
+        }
+
 
 
 
 class SignInForm(forms.Form):
 
-    username=forms.CharField(max_length=200)
+    username=forms.CharField(widget=forms.TextInput(attrs={"class":"form-control","style":"width:300px;height:40px;margin-bottom:30px;"}))
 
-    password=forms.CharField(widget=forms.PasswordInput())
-
-
+    password=forms.CharField(widget=forms.PasswordInput(attrs={"class":"form-control","style":"width:300px;height:40px;margin-bottom:20px;"}))
 
 
 class UserProfileForm(forms.ModelForm):
@@ -35,7 +44,15 @@ class UserProfileForm(forms.ModelForm):
 
         fields=["bio","profile_picture","phone"]
 
+        widgets={
 
+            "bio":forms.TextInput(attrs={"class":"form-control","style":"width:350px;height:40px;margin-bottom:40px;"}),
+
+            "profile_picture":forms.FileInput(attrs={"class":"form-control","style":"width:350px;height:40px;margin-bottom:40px;"}),
+
+            "phone":forms.NumberInput(attrs={"class":"form-control","style":"width:350px;height:40px;margin-bottom:40px;"})
+
+        }
 
 
 class ProjectForm(forms.ModelForm):
@@ -48,4 +65,16 @@ class ProjectForm(forms.ModelForm):
                  
                  "price","files","tag_objects","thumbnail"
                  ]
+
+
+
+class PasswordResetForm(forms.Form):
+
+    username=forms.CharField()
+
+    email=forms.CharField()
+
+    password1=forms.CharField()
+
+    password2=forms.CharField()
      
